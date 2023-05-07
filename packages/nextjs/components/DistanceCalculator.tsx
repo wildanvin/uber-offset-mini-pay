@@ -122,5 +122,5 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyC21wSrxi-PbgFjdeo8fGu948p9X3jIxYg",
+  apiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
 })(DistanceCalculator);
