@@ -6,6 +6,7 @@ import type { NextPage } from "next";
 import ToucanClient from "toucan-sdk";
 import { useProvider, useSigner } from "wagmi";
 import { BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import DistanceCalculator from "~~/components/DistanceCalculator";
 
 const Home: NextPage = () => {
   const provider = useProvider();
@@ -40,6 +41,7 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
           </h1>
           <div>
+            <DistanceCalculator />
             <button
               className="inline-flex w-full justify-center rounded-full border px-5 my-5 py-2 text-md font-medium border-wood bg-prosperity text-black hover:bg-snow"
               onClick={() => redeemPoolToken()}

@@ -1846,6 +1846,7 @@ __metadata:
     eslint-config-prettier: ^8.5.0
     eslint-plugin-prettier: ^4.2.1
     ethers: ^5.0.0
+    google-maps-react: ^2.0.6
     next: ^13.1.6
     nextjs-progressbar: ^0.0.16
     postcss: ^8.4.16
@@ -7967,6 +7968,16 @@ __metadata:
   peerDependencies:
     csstype: ^3.0.10
   checksum: c37c14f476f65f7c66d94ac1a1686a130b4fa42fc512175444e3c708fa1815f6ea579e1b23567e57d41de2e62ff8b5913915ec829f05a3b995d1a7a0016c0bdf
+  languageName: node
+  linkType: hard
+
+"google-maps-react@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "google-maps-react@npm:2.0.6"
+  peerDependencies:
+    react: ~0.14.8 || ^15.0.0 || ^16.0.0
+    react-dom: ~0.14.8 || ^15.0.0 || ^16.0.0
+  checksum: cf5120d6ff7234bb58953d3a475b30bbd20f67cb3167865c2c64ce4eba772463e0b6e621fd51e93d383f451e86677374c0ed4b0645dc18bcd14666eac52e5e7b
   languageName: node
   linkType: hard
 
