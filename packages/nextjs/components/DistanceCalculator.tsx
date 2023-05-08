@@ -69,69 +69,6 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
     console.log(place);
     setDestinationSuggestions([]);
   };
-  /*
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { google } = props;
-    const service = new google.maps.DistanceMatrixService();
-    const geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode({ address: origin }, (results: any, status: any) => {
-      if (status === "OK") {
-        const originLatLng = results[0].geometry.location;
-        geocoder.geocode({ address: destination }, (results: any, status: any) => {
-          if (status === "OK") {
-            const destinationLatLng = results[0].geometry.location;
-            service.getDistanceMatrix(
-              {
-                origins: [originLatLng],
-                destinations: [destinationLatLng],
-                travelMode: google.maps.TravelMode.DRIVING,
-              },
-              (response: any, status: any) => {
-                if (status === "OK") {
-                  const distance = response.rows[0].elements[0].distance.value;
-                  setDistance(distance);
-
-                  const bounds = new google.maps.LatLngBounds();
-                  bounds.extend(originLatLng);
-                  bounds.extend(destinationLatLng);
-
-                  if (map) {
-                    map.fitBounds(bounds);
-
-                    const pathCoordinates = [
-                      { lat: originLatLng.lat(), lng: originLatLng.lng() },
-                      { lat: destinationLatLng.lat(), lng: destinationLatLng.lng() },
-                    ];
-                    setPath(pathCoordinates);
-                  }
-                }
-                setOriginPosition(originLatLng);
-                setDestinationPosition(destinationLatLng);
-                setPath([originLatLng, destinationLatLng]);
-              },
-            );
-          } else {
-            setDistance(0);
-            if (map) {
-              setOriginPosition(null);
-              setDestinationPosition(null);
-              setPath(null);
-            }
-          }
-        });
-      } else {
-        setDistance(0);
-        if (map) {
-          setOriginPosition(null);
-          setDestinationPosition(null);
-          setPath(null);
-        }
-      }
-    });
-  };
-  */
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -194,17 +131,29 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
     });
   };
 
-  const mapStyles = {
-    width: "100%",
-    height: "400px",
-  };
+  //   const mapStyles = {
+  //     width: "100%",
+  //     height: "400px",
+  //   };
+
+  interface IMapProps {
+    google: any;
+    zoom: number;
+    style?: React.CSSProperties;
+    initialCenter?: google.maps.LatLngLiteral;
+    center?: google.maps.LatLngLiteral;
+    onReady?: (mapProps: any, map: any) => void;
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="origin">Origin:</label>
+    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-lg shadow-lg">
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <div className="flex flex-col space-y-2">
+          <label className="font-medium text-gray-700" htmlFor="origin">
+            Origin:
+          </label>
           <input
+            className="w-full px-4 py-2 text-gray-700 bg-gray-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary"
             id="origin"
             value={origin}
             onChange={handleOriginChange}
@@ -212,18 +161,25 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
             autoComplete="off"
           />
           {originSuggestions.length > 0 && (
-            <ul>
+            <ul className="bg-white border rounded-md shadow-lg">
               {originSuggestions.map(suggestion => (
-                <li key={suggestion} onClick={() => handleOriginSelect(suggestion)}>
+                <li
+                  key={suggestion}
+                  onClick={() => handleOriginSelect(suggestion)}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                >
                   {suggestion}
                 </li>
               ))}
             </ul>
           )}
         </div>
-        <div>
-          <label htmlFor="destination">Destination:</label>
+        <div className="flex flex-col space-y-2">
+          <label className="font-medium text-gray-700" htmlFor="destination">
+            Destination:
+          </label>
           <input
+            className="w-full px-4 py-2 text-gray-700 bg-gray-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary"
             id="destination"
             value={destination}
             onChange={handleDestinationChange}
@@ -231,33 +187,44 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
             autoComplete="off"
           />
           {destinationSuggestions.length > 0 && (
-            <ul>
+            <ul className="bg-white border rounded-md shadow-lg">
               {destinationSuggestions.map(suggestion => (
-                <li key={suggestion} onClick={() => handleDestinationSelect(suggestion)}>
+                <li
+                  key={suggestion}
+                  onClick={() => handleDestinationSelect(suggestion)}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                >
                   {suggestion}
                 </li>
               ))}
             </ul>
           )}
         </div>
-        <button type="submit">Calculate distance</button>
+        <button
+          type="submit"
+          className="w-full px-4 py-2 text-white bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          Calculate distance
+        </button>
       </form>
       {distance > 0 && (
-        <div>
-          <p>Distance: {distance / 1000} km</p>
+        <div className="mt-4">
+          <p className="text-lg font-medium text-gray-700">Distance: {distance / 1000} km</p>
         </div>
       )}
-      <Map
-        google={props.google}
-        zoom={14}
-        style={mapStyles}
-        initialCenter={{ lat: 37.774929, lng: -122.419416 }}
-        onReady={(mapProps: any, map: any) => setMap(map)}
-      >
-        {originPosition && <Marker position={originPosition} />}
-        {destinationPosition && <Marker position={destinationPosition} />}
-        {path && <Polyline path={path} strokeColor="#0000FF" strokeOpacity={0.8} strokeWeight={2} />}
-      </Map>
+      <div className="mt-4 rounded-md shadow-lg overflow-hidden">
+        <Map
+          google={props.google}
+          zoom={14}
+          style={{ height: "400px", width: "750px" }}
+          initialCenter={{ lat: 37.774929, lng: -122.419416 }}
+          onReady={(mapProps: any, map: any) => setMap(map)}
+        >
+          {originPosition && <Marker position={originPosition} />}
+          {destinationPosition && <Marker position={destinationPosition} />}
+          {path && <Polyline path={path} strokeColor="var(--primary)" strokeOpacity={0.8} strokeWeight={3} />}
+        </Map>
+      </div>
     </div>
   );
 };
