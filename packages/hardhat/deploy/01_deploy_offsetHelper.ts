@@ -3,7 +3,8 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import addresses, { alfajoresAddresses } from "../utils/addresses";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const addressesToUse = hre.network.name == "mumbai" ? alfajoresAddresses : addresses;
+  // const addressesToUse = hre.network.name == "alfajores" ? alfajoresAddresses : addresses;
+  const addressesToUse = alfajoresAddresses;
 
   const { deployments, getNamedAccounts } = hre;
   const { deploy } = deployments;
@@ -21,3 +22,5 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
 };
 export default func;
+
+func.tags = ["OffsetHelper"];
