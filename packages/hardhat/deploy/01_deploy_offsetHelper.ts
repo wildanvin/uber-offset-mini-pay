@@ -1,10 +1,9 @@
 import { DeployFunction } from "hardhat-deploy/types";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import addresses, { mumbaiAddresses } from "../utils/addresses";
+import addresses, { alfajoresAddresses } from "../utils/addresses";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const addressesToUse =
-    hre.network.name == "mumbai" ? mumbaiAddresses : addresses;
+  const addressesToUse = hre.network.name == "mumbai" ? alfajoresAddresses : addresses;
 
   const { deployments, getNamedAccounts } = hre;
   const { deploy } = deployments;
