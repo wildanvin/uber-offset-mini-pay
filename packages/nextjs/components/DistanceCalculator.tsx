@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ToucanSDK from "./ToucanSDK";
 import google from "@types/googlemaps";
 import { GoogleApiWrapper, Map, Marker, Polyline } from "google-maps-react";
 
@@ -92,7 +93,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
               (response: any, status: any) => {
                 if (status === "OK") {
                   const distance = response.routes[0].legs[0].distance.value;
-                  setDistance(distance);
+                  setDistance(Math.ceil(distance / 1000));
 
                   const bounds = new google.maps.LatLngBounds();
                   bounds.extend(originLatLng);
@@ -146,7 +147,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-lg shadow-lg">
+    <div className="w-1800px mx-auto p-4 bg-white rounded-lg shadow-lg">
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-2">
           <label className="font-medium text-gray-700" htmlFor="origin">
@@ -161,7 +162,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
             autoComplete="off"
           />
           {originSuggestions.length > 0 && (
-            <ul className="bg-white border rounded-md shadow-lg">
+            <ul className="bg-white border rounded-md shadow-lg text-gray-700 text-xs">
               {originSuggestions.map(suggestion => (
                 <li
                   key={suggestion}
@@ -187,7 +188,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
             autoComplete="off"
           />
           {destinationSuggestions.length > 0 && (
-            <ul className="bg-white border rounded-md shadow-lg">
+            <ul className="bg-white border rounded-md shadow-lg text-gray-700 text-xs">
               {destinationSuggestions.map(suggestion => (
                 <li
                   key={suggestion}
@@ -209,14 +210,14 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
       </form>
       {distance > 0 && (
         <div className="mt-4">
-          <p className="text-lg font-medium text-gray-700">Distance: {distance / 1000} km</p>
+          <p className="text-lg font-medium text-gray-700">Distance: {distance} km</p>
         </div>
       )}
-      <div className="mt-4 rounded-md shadow-lg overflow-hidden">
+      <div className="h-96 w-full mx-auto relative flex flex-col py-6">
         <Map
           google={props.google}
           zoom={14}
-          style={{ height: "400px", width: "750px" }}
+          style={{ height: "100%", width: "100%" }}
           initialCenter={{ lat: 37.774929, lng: -122.419416 }}
           onReady={(mapProps: any, map: any) => setMap(map)}
         >
@@ -225,6 +226,9 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
           {path && <Polyline path={path} strokeColor="var(--primary)" strokeOpacity={0.8} strokeWeight={3} />}
         </Map>
       </div>
+      <ToucanSDK distance={distance} />
+      {/* <ToucanSDK name="hiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" />
+      <ToucanSDK name="hiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" /> */}
     </div>
   );
 };
