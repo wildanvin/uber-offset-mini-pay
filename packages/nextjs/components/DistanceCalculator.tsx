@@ -11,7 +11,7 @@ interface DistanceCalculatorProps {
 const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
-  const [distance, setDistance] = useState(0);
+  const [distance, setDistance] = useState(1);
   const [originSuggestions, setOriginSuggestions] = useState<string[]>([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState<string[]>([]);
   const [map, setMap] = useState<any>(null);

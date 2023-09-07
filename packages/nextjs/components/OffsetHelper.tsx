@@ -1,12 +1,19 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { EtherInput } from "./scaffold-eth";
-import { parseEther } from "ethers/lib/utils.js";
+import { ethers } from "ethers";
+import { formatEther, parseEther, parseUnits } from "ethers/lib/utils.js";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 type Props = {
   distance: number;
 };
+
+function weiToEtherString(weiString: string | undefined): string {
+  const wei = ethers.BigNumber.from(weiString);
+  const ether: string = ethers.utils.formatEther(wei).slice(0, 8);
+  return ether;
+}
 
 const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const [isRoundTrip, setIsRoundTrip] = useState(false);
@@ -18,17 +25,20 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const { data: ETHNeeded } = useScaffoldContractRead({
     contractName: "OffsetHelper",
     functionName: "calculateNeededETHAmount",
-    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther("1")],
+    // args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther("1")],
+    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString())],
   });
-
-  console.log(`matic needed is ${ETHNeeded}`);
 
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
     setKmToOffset(kms);
-    const tokens = Math.ceil(kms * tonesOfCO2ByKm);
+    // const tokens = Math.ceil(kms * tonesOfCO2ByKm);
+    const tokens = kms * tonesOfCO2ByKm;
+
     setTokenToOffset(tokens);
   }, [distance, isRoundTrip, daysTraveled]);
+
+  console.log(`pass to offseter: ${parseEther(tokensToOffset.toString())}`);
 
   return (
     <>
@@ -64,9 +74,9 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
 
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
-          {kmToOffset.toLocaleString()} km would need {tokensToOffset} NCT tokens to retire
+          For {kmToOffset.toLocaleString()} km you will need {weiToEtherString(ETHNeeded?.toString())} MATIC in order to
+          retire {tokensToOffset} NCT tokens.
         </p>
-        <p className="text-lg font-medium text-gray-700">Hey you will need {ETHNeeded?.toString()} matic</p>
       </div>
     </>
   );
