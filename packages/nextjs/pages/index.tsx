@@ -1,32 +1,14 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { parseEther } from "ethers/lib/utils.js";
+//import { parseEther } from "ethers/lib/utils.js";
 import type { NextPage } from "next";
-import ToucanClient from "toucan-sdk";
-import { useProvider, useSigner } from "wagmi";
+// import ToucanClient from "toucan-sdk";
+// import { useProvider, useSigner } from "wagmi";
 import { BugAntIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import DistanceCalculator from "~~/components/DistanceCalculator";
 
 const Home: NextPage = () => {
-  const provider = useProvider();
-  const { data: signer } = useSigner();
-
-  const toucan = new ToucanClient("alfajores", provider);
-  signer && toucan.setSigner(signer);
-
-  // we will store our return value here
-  const [tco2address, setTco2address] = useState("");
-
-  const redeemPoolToken = async (): Promise<void> => {
-    const redeemedTokenAddress = await toucan.redeemAuto2("NCT", parseEther("1"));
-    redeemedTokenAddress && setTco2address(redeemedTokenAddress[0].address);
-  };
-
-  const retirePoolToken = async (): Promise<void> => {
-    tco2address.length && (await toucan.retire(parseEther("1.0"), tco2address));
-  };
-
   return (
     <>
       <Head>
@@ -42,18 +24,6 @@ const Home: NextPage = () => {
           </h1>
           <div>
             <DistanceCalculator />
-            <button
-              className="inline-flex w-full justify-center rounded-full border px-5 my-5 py-2 text-md font-medium border-wood bg-prosperity text-black hover:bg-snow"
-              onClick={() => redeemPoolToken()}
-            >
-              {"Redeem Tokens"}
-            </button>
-            <button
-              className="inline-flex w-full justify-center rounded-full border px-5 my-5 py-2 text-md font-medium border-wood bg-prosperity text-black hover:bg-snow"
-              onClick={() => retirePoolToken()}
-            >
-              {"Retire Tokens"}
-            </button>
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import OffsetHelper from "./OffsetHelper";
 import ToucanSDK from "./ToucanSDK";
 import google from "@types/googlemaps";
 import { GoogleApiWrapper, Map, Marker, Polyline } from "google-maps-react";
@@ -227,8 +228,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
         </Map>
       </div>
       <ToucanSDK distance={distance} />
-      {/* <ToucanSDK name="hiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" />
-      <ToucanSDK name="hiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" /> */}
+      <OffsetHelper distance={distance} />
     </div>
   );
 };

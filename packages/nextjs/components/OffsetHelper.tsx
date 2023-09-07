@@ -1,28 +1,27 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { EtherInput } from "./scaffold-eth";
 import { parseEther } from "ethers/lib/utils.js";
-import ToucanClient from "toucan-sdk";
-import { useProvider, useSigner } from "wagmi";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 type Props = {
-  //name: string;
   distance: number;
 };
 
-const ToucanSDK: React.FC<Props> = ({ distance }) => {
-  const provider = useProvider();
-  const { data: signer } = useSigner();
-
-  const toucan = new ToucanClient("alfajores", provider);
-  signer && toucan.setSigner(signer);
-
-  // we will store our return value here
-  const [tco2address, setTco2address] = useState("");
+const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [daysTraveled, setDaysTraveled] = useState(1);
   const [kmToOffset, setKmToOffset] = useState(distance);
   const [tokensToOffset, setTokenToOffset] = useState(0);
   const tonesOfCO2ByKm = 0.0003;
+
+  const { data: ETHNeeded } = useScaffoldContractRead({
+    contractName: "OffsetHelper",
+    functionName: "calculateNeededETHAmount",
+    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther("1")],
+  });
+
+  console.log(`matic needed is ${ETHNeeded}`);
 
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
@@ -30,15 +29,6 @@ const ToucanSDK: React.FC<Props> = ({ distance }) => {
     const tokens = Math.ceil(kms * tonesOfCO2ByKm);
     setTokenToOffset(tokens);
   }, [distance, isRoundTrip, daysTraveled]);
-
-  const redeemPoolToken = async (): Promise<void> => {
-    const redeemedTokenAddress = await toucan.redeemAuto2("NCT", parseEther(tokensToOffset.toString()));
-    redeemedTokenAddress && setTco2address(redeemedTokenAddress[0].address);
-  };
-
-  const retirePoolToken = async (): Promise<void> => {
-    tco2address.length && (await toucan.retire(parseEther(tokensToOffset.toString()), tco2address));
-  };
 
   return (
     <>
@@ -76,22 +66,10 @@ const ToucanSDK: React.FC<Props> = ({ distance }) => {
         <p className="text-lg font-medium text-gray-700">
           {kmToOffset.toLocaleString()} km would need {tokensToOffset} NCT tokens to retire
         </p>
+        <p className="text-lg font-medium text-gray-700">Hey you will need {ETHNeeded?.toString()} matic</p>
       </div>
-
-      <button
-        className="inline-flex w-full justify-center rounded-lg border px-5 my-7 py-2  bg-primary text-white hover:bg-opacity-90"
-        onClick={() => redeemPoolToken()}
-      >
-        {`Redeem ${tokensToOffset} NCT`}
-      </button>
-      <button
-        className="inline-flex w-full justify-center rounded-lg border px-5 my-5 py-2  bg-primary text-white hover:bg-opacity-90"
-        onClick={() => retirePoolToken()}
-      >
-        {`Retire ${tokensToOffset} TCO2`}
-      </button>
     </>
   );
 };
 
-export default ToucanSDK;
+export default OffsetHelper;
