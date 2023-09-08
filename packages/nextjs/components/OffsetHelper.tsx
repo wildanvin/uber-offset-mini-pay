@@ -10,9 +10,14 @@ type Props = {
 };
 
 function weiToEtherString(weiString: string | undefined): string {
-  const wei = ethers.BigNumber.from(weiString);
-  const ether: string = ethers.utils.formatEther(wei).slice(0, 8);
-  return ether;
+  try {
+    const wei = ethers.BigNumber.from(weiString);
+    const ether: string = ethers.utils.formatEther(wei).slice(0, 6);
+    return ether;
+  } catch (error) {
+    console.error("Error converting Wei to Ether:", error);
+    return "0.0"; // Return a default value or handle the error as needed
+  }
 }
 
 const OffsetHelper: React.FC<Props> = ({ distance }) => {
@@ -74,10 +79,17 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
 
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
-          For {kmToOffset.toLocaleString()} km you will need {weiToEtherString(ETHNeeded?.toString())} MATIC in order to
-          retire {tokensToOffset} NCT tokens.
+          For {kmToOffset.toLocaleString()} km you will need <b>{weiToEtherString(ETHNeeded?.toString())} MATIC </b> in
+          order to retire {tokensToOffset.toString().slice(0, 6)} NCT tokens.
         </p>
       </div>
+
+      <button
+        className="inline-flex w-full justify-center rounded-lg border px-5 my-5 py-2  bg-primary text-white hover:bg-opacity-90"
+        onClick={e => {}}
+      >
+        Offset this ride
+      </button>
     </>
   );
 };

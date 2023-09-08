@@ -227,7 +227,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
           {path && <Polyline path={path} strokeColor="var(--primary)" strokeOpacity={0.8} strokeWeight={3} />}
         </Map>
       </div>
-      <ToucanSDK distance={distance} />
+      {/* <ToucanSDK distance={distance} /> */}
       <OffsetHelper distance={distance} />
     </div>
   );
