@@ -35,6 +35,8 @@ function weiToEtherStringDisplay(weiString: string | undefined): string {
 const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [daysTraveled, setDaysTraveled] = useState(1);
+  const [daysTraveledShow, setDaysTraveledShow] = useState("1");
+
   const [kmToOffset, setKmToOffset] = useState(distance);
   const [tokensToOffset, setTokenToOffset] = useState(0);
   const tonesOfCO2ByKm = 0.0003;
@@ -56,9 +58,9 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
     value: weiToEtherString(ETHNeeded?.toString()),
   });
 
-  console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
-  console.log(`matic to exchange displayed: ${weiToEtherStringDisplay(ETHNeeded?.toString())}`);
-  console.log(`matic to exchange actually exchanged: ${weiToEtherString(ETHNeeded?.toString())}`);
+  // console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
+  // console.log(`matic to exchange displayed: ${weiToEtherStringDisplay(ETHNeeded?.toString())}`);
+  // console.log(`matic to exchange actually exchanged: ${weiToEtherString(ETHNeeded?.toString())}`);
 
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
@@ -94,13 +96,15 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
           type="number"
           name="daysTraveled"
           id="daysTraveled"
-          value={daysTraveled}
+          value={daysTraveledShow}
           onChange={e => {
             const inputValue = e.target.value;
             if (inputValue !== "") {
               setDaysTraveled(parseInt(inputValue));
+              setDaysTraveledShow(inputValue);
             } else if (inputValue === "") {
               setDaysTraveled(0);
+              setDaysTraveledShow(inputValue);
             }
           }}
           className="w-20 px-3 py-1 text-gray-700 border rounded-lg focus:outline-none focus:border-primary"
@@ -119,7 +123,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
         className="inline-flex w-full justify-center rounded-lg border px-5 my-5 py-2  bg-primary text-white hover:bg-opacity-90"
         onClick={writeAsync}
       >
-        Offset this ride
+        Offset this ride(s)
       </button>
     </>
   );
