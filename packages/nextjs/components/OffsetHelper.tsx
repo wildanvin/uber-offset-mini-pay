@@ -1,9 +1,9 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { EtherInput } from "./scaffold-eth";
 import { ethers } from "ethers";
-import { formatEther, parseEther, parseUnits } from "ethers/lib/utils.js";
+import { parseEther } from "ethers/lib/utils.js";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 type Props = {
   distance: number;
@@ -12,11 +12,23 @@ type Props = {
 function weiToEtherString(weiString: string | undefined): string {
   try {
     const wei = ethers.BigNumber.from(weiString);
+    const ether = wei.add(ethers.utils.parseUnits("2000000", 0)); // Adding 2000000 Wei
+    const etherString: string = ethers.utils.formatEther(ether);
+    return etherString;
+  } catch (error) {
+    //console.error("Error converting Wei to Ether:", error);
+    return "0.0";
+  }
+}
+
+function weiToEtherStringDisplay(weiString: string | undefined): string {
+  try {
+    const wei = ethers.BigNumber.from(weiString);
     const ether: string = ethers.utils.formatEther(wei).slice(0, 6);
     return ether;
   } catch (error) {
-    console.error("Error converting Wei to Ether:", error);
-    return "0.0"; // Return a default value or handle the error as needed
+    //console.error("Error converting Wei to Ether (Display):", error);
+    return "0.0";
   }
 }
 
@@ -27,23 +39,34 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const [tokensToOffset, setTokenToOffset] = useState(0);
   const tonesOfCO2ByKm = 0.0003;
 
+  /*
+  Address of NCT token on polygon 0xD838290e877E0188a4A44700463419ED96c16107
+  */
+
   const { data: ETHNeeded } = useScaffoldContractRead({
     contractName: "OffsetHelper",
     functionName: "calculateNeededETHAmount",
-    // args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther("1")],
-    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString())],
+    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
   });
+
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
+    contractName: "OffsetHelper",
+    functionName: "autoOffsetExactOutETH",
+    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
+    value: weiToEtherString(ETHNeeded?.toString()),
+  });
+
+  console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
+  console.log(`matic to exchange displayed: ${weiToEtherStringDisplay(ETHNeeded?.toString())}`);
+  console.log(`matic to exchange actually exchanged: ${weiToEtherString(ETHNeeded?.toString())}`);
 
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
     setKmToOffset(kms);
-    // const tokens = Math.ceil(kms * tonesOfCO2ByKm);
     const tokens = kms * tonesOfCO2ByKm;
 
     setTokenToOffset(tokens);
   }, [distance, isRoundTrip, daysTraveled]);
-
-  console.log(`pass to offseter: ${parseEther(tokensToOffset.toString())}`);
 
   return (
     <>
@@ -72,21 +95,29 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
           name="daysTraveled"
           id="daysTraveled"
           value={daysTraveled}
-          onChange={e => setDaysTraveled(parseInt(e.target.value))}
+          onChange={e => {
+            const inputValue = e.target.value;
+            if (inputValue !== "") {
+              setDaysTraveled(parseInt(inputValue));
+            } else if (inputValue === "") {
+              setDaysTraveled(0);
+            }
+          }}
           className="w-20 px-3 py-1 text-gray-700 border rounded-lg focus:outline-none focus:border-primary"
         />
       </div>
 
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
-          For {kmToOffset.toLocaleString()} km you will need <b>{weiToEtherString(ETHNeeded?.toString())} MATIC </b> in
-          order to retire {tokensToOffset.toString().slice(0, 6)} NCT tokens.
+          For {kmToOffset.toLocaleString()} km you will need{" "}
+          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> in order to retire{" "}
+          {tokensToOffset.toString().slice(0, 6)} NCT tokens.
         </p>
       </div>
 
       <button
         className="inline-flex w-full justify-center rounded-lg border px-5 my-5 py-2  bg-primary text-white hover:bg-opacity-90"
-        onClick={e => {}}
+        onClick={writeAsync}
       >
         Offset this ride
       </button>
