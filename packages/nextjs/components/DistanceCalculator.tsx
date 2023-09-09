@@ -202,16 +202,18 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
             </ul>
           )}
         </div>
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          Calculate distance
-        </button>
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="w-full lg:w-1/2 mx-auto px-4 py-2 text-white bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
+          >
+            Calculate distance
+          </button>
+        </div>
       </form>
       {distance > 0 && (
         <div className="mt-4">
-          <p className="text-lg font-medium text-gray-700">Distance: {distance} km</p>
+          <p className="text-lg font-medium text-gray-700">Ride distance: {distance} km</p>
         </div>
       )}
       <div className="h-96 w-full mx-auto relative flex flex-col py-6">
