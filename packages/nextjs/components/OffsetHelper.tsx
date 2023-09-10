@@ -127,6 +127,8 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
           Offset this ride(s)
         </button>
       </div>
+      <br />
+      <br />
     </>
   );
 };

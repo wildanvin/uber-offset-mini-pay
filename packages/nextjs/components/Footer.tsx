@@ -56,7 +56,7 @@ export const Footer = () => {
             <span>·</span>
             <div>
               <a
-                href="https://t.me/joinchat/KByvmRe5wkR-8F_zz6AjpA"
+                href="https://twitter.com/wildanvin"
                 target="_blank"
                 rel="noreferrer"
                 className="underline underline-offset-2"
