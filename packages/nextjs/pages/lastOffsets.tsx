@@ -1,7 +1,27 @@
 import Head from "next/head";
 import type { NextPage } from "next";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
 
 const LastOffsets: NextPage = () => {
+  const {
+    data: events,
+    isLoading: isLoadingEvents,
+    error: errorReadingEvents,
+  } = useScaffoldEventHistory({
+    contractName: "OffsetHelper",
+    eventName: "Redeemed",
+    // Specify the starting block number from which to read events.
+    fromBlock: 47351795,
+    blockData: true,
+    // Apply filters to the event based on parameter names and values { [parameterName]: value },
+    //filters: { premium: true }
+    // If set to true it will return the transaction data for each event (default: false),
+    transactionData: true,
+    // If set to true it will return the receipt data for each event (default: false),
+    receiptData: false,
+  });
+
+  console.log(events);
   return (
     <>
       <Head>
