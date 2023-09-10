@@ -1,7 +1,7 @@
 import Head from "next/head";
 import type { NextPage } from "next";
 
-const LastOffsets: NextPage = () => {
+const About: NextPage = () => {
   return (
     <>
       <Head>
@@ -13,7 +13,7 @@ const LastOffsets: NextPage = () => {
         <div className="w-full lg:w-1/2 px-5">
           <section className="pt-5 pb-20 w-1800px mx-auto p-4 bg-white rounded-lg shadow-lg">
             <div className="flex flex-col space-y-2">
-              <h2 className="text-3xl font-semibold text-gray-800 mb-4">Last Offsets</h2>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-4">About Us</h2>
               <p className="text-gray-600 leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget turpis justo. Vestibulum id ante id
                 libero bibendum luctus.
@@ -35,4 +35,4 @@ const LastOffsets: NextPage = () => {
   );
 };
 
-export default LastOffsets;
+export default About;
