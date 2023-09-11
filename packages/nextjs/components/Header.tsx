@@ -43,7 +43,7 @@ export const Header = () => {
       <li>
         <NavLink href="/lastOffsets">
           <EyeIcon className="h-4 w-4" />
-          Last Offsets
+          Latest Offsets
         </NavLink>
       </li>
       <li>

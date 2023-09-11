@@ -1,7 +1,20 @@
 import Head from "next/head";
+import { ethers } from "ethers";
 import type { NextPage } from "next";
 import CardOffset from "~~/components/CardOffset";
+import { Spinner } from "~~/components/Spinner";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
+
+function weiToEtherStringDisplay(weiString: string | undefined): string {
+  try {
+    const wei = ethers.BigNumber.from(weiString);
+    const ether: string = ethers.utils.formatEther(wei).slice(0, 6);
+    return ether;
+  } catch (error) {
+    //console.error("Error converting Wei to Ether (Display):", error);
+    return "0.0";
+  }
+}
 
 const LastOffsets: NextPage = () => {
   const {
@@ -13,16 +26,22 @@ const LastOffsets: NextPage = () => {
     eventName: "Redeemed",
     // Specify the starting block number from which to read events.
     fromBlock: 47348803,
-    blockData: true,
-    // Apply filters to the event based on parameter names and values { [parameterName]: value },
-    //filters: { premium: true }
-    // If set to true it will return the transaction data for each event (default: false),
+    blockData: false,
     transactionData: true,
-    // If set to true it will return the receipt data for each event (default: false),
     receiptData: false,
   });
 
-  console.log(events);
+  console.log(isLoadingEvents);
+
+  const eventList = events?.map(event => (
+    <CardOffset
+      key={event.transaction.hash}
+      txHash={event.transaction.hash}
+      address={event.args[0]}
+      tokenQuantity={weiToEtherStringDisplay(event.args[3].toString())}
+    />
+  ));
+
   return (
     <>
       <Head>
@@ -33,30 +52,19 @@ const LastOffsets: NextPage = () => {
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="w-full lg:w-1/2 px-5">
           <h1 className="text-center mb-8">
-            <span className="block text-4xl font-bold">Last Offsets</span>
+            <span className="block text-4xl font-bold">Latest Offsets</span>
           </h1>
           <section className="pt-5 pb-20 w-1800px mx-auto p-4 bg-white rounded-lg shadow-lg">
             <div className="flex flex-col space-y-2">
-              <CardOffset
-                id="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                txHash="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                address="0x4b2b0D5eE2857fF41B40e3820cDfAc8A9cA60d9f"
-                tokenQuantity="100"
-              />
-
-              <CardOffset
-                id="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                txHash="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                address="0x4E01404D07c5C85D35a2b6A6Ad777D29CC51Eaa1"
-                tokenQuantity="10"
-              />
-
-              <CardOffset
-                id="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                txHash="0x8df5ef909e0e25d17bae8d746cca3893c8d917b4e17ac10753d94453a62c8aec"
-                address="0x4b2b0D5eE2857fF41B40e3820cDfAc8A9cA60d9f"
-                tokenQuantity="0.5"
-              />
+              <div>
+                {isLoadingEvents ? (
+                  <div className="flex items-center justify-center">
+                    <Spinner />
+                  </div>
+                ) : (
+                  eventList
+                )}
+              </div>
             </div>
           </section>
         </div>
