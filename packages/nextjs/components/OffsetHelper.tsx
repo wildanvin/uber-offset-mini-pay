@@ -136,7 +136,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
 
       <div className="flex justify-center">
         <button
-          className="w-full lg:w-1/2 mx-auto px-4 py-2 text-white bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
+          className="w-full lg:w-1/2 mx-auto px-4 py-2 bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
           onClick={writeAsync}
         >
           Offset this ride(s)

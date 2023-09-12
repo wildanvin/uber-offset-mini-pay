@@ -151,7 +151,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
   }
 
   return (
-    <div className="w-1800px mx-auto p-4 bg-white rounded-lg shadow-lg">
+    <div className="w-1800px mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex flex-col space-y-2">
           <label className="font-medium text-gray-700" htmlFor="origin">
@@ -208,7 +208,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="w-full lg:w-1/2 mx-auto px-4 py-2 text-white bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full lg:w-1/2 mx-auto px-4 py-2 bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
           >
             Calculate distance
           </button>

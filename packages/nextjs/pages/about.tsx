@@ -14,7 +14,7 @@ const About: NextPage = () => {
           <h1 className="text-center mb-8">
             <span className="block text-4xl font-bold">How it works?</span>
           </h1>
-          <section className="pt-5 pb-20 w-1800px mx-auto p-4 bg-white rounded-lg shadow-lg">
+          <section className="pt-5 pb-20 w-1800px mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
             <div className="flex flex-col space-y-2">
               <p className="text-gray-600 leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget turpis justo. Vestibulum id ante id
