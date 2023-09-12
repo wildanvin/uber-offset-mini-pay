@@ -12,6 +12,8 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [distance, setDistance] = useState(1);
+  const [distanceDisplay, setDistanceDisplay] = useState(0);
+
   const [originSuggestions, setOriginSuggestions] = useState<string[]>([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState<string[]>([]);
   const [map, setMap] = useState<any>(null);
@@ -95,6 +97,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
                 if (status === "OK") {
                   const distance = response.routes[0].legs[0].distance.value;
                   setDistance(Math.ceil(distance / 1000));
+                  setDistanceDisplay(Math.ceil(distance / 1000));
 
                   const bounds = new google.maps.LatLngBounds();
                   bounds.extend(originLatLng);
@@ -213,7 +216,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
       </form>
       {distance > 0 && (
         <div className="mt-4">
-          <p className="text-lg font-medium text-gray-700">Ride distance: {distance} km</p>
+          <p className="text-lg font-medium text-gray-700">Ride distance: {distanceDisplay} km</p>
         </div>
       )}
       <div className="h-96 w-full mx-auto relative flex flex-col py-6">

@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils.js";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldEventSubscriber } from "~~/hooks/scaffold-eth";
 
 type Props = {
   distance: number;
@@ -41,6 +43,8 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const [tokensToOffset, setTokenToOffset] = useState(0);
   const tonesOfCO2ByKm = 0.0003;
 
+  const router = useRouter();
+
   /*
   Address of NCT token on polygon 0xD838290e877E0188a4A44700463419ED96c16107
   */
@@ -56,6 +60,17 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
     functionName: "autoOffsetExactOutETH",
     args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
     value: weiToEtherString(ETHNeeded?.toString()),
+  });
+
+  useScaffoldEventSubscriber({
+    contractName: "OffsetHelper",
+    eventName: "Redeemed",
+    // The listener function is called whenever a GreetingChange event is emitted by the contract.
+    // It receives the parameters emitted by the event,
+    listener: () => {
+      //console.log(who, poolToken, tco2s, amounts);
+      router.push("/lastOffsets");
+    },
   });
 
   // console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
@@ -114,7 +129,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
           For {kmToOffset.toLocaleString()} km you will need{" "}
-          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> in order to retire{" "}
+          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> (plus has fees) in order to retire{" "}
           {tokensToOffset.toString().slice(0, 6)} NCT tokens.
         </p>
       </div>
