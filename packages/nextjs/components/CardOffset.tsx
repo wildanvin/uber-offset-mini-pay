@@ -13,7 +13,7 @@ const Card: React.FC<CardProps> = ({ txHash, address, tokenQuantity }) => {
       <div className="text-gray-600 flex ml-1.5 text-lg font-normal justify-center flex-col sm:flex-row">
         <Address address={address} />
         <p>
-          &nbsp; has retired <b>{tokenQuantity} tons</b> of CO<sub>2</sub>.{" "}
+          &nbsp; has retired <b>{tokenQuantity} tonnes</b> of CO<sub>2</sub>.{" "}
         </p>
         <p>
           &nbsp;{" "}

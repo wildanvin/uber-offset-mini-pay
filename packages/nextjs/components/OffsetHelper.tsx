@@ -41,7 +41,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
 
   const [kmToOffset, setKmToOffset] = useState(distance);
   const [tokensToOffset, setTokenToOffset] = useState(0);
-  const tonesOfCO2ByKm = 0.0003;
+  const tonesOfCO2ByKm = 0.0002;
 
   const router = useRouter();
 
@@ -130,7 +130,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
         <p className="text-lg font-medium text-gray-700">
           For {kmToOffset.toLocaleString()} km you will need{" "}
           <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> (plus has fees) in order to retire{" "}
-          {tokensToOffset.toString().slice(0, 6)} NCT tokens.
+          {tokensToOffset.toString().slice(0, 6)} TCO2 tokens.
         </p>
       </div>
 
