@@ -71,13 +71,13 @@ const About: NextPage = () => {
                   className="underline underline-offset-2"
                 >
                   statista.com
-                </a>
-                , the average carbon emission per kilometer for a typical car is approximately 192 grams, which I've
+                </a>{" "}
+                the average carbon emission per kilometer for a typical car is approximately 192 grams, which I've
                 rounded up to 200 grams for simplicity. When converted to tonnes, this is equivalent to 0.0002 tonnes.
               </p>
               <p className="text-gray-600 mt-4">
                 Google Maps API calculates the distance of your ride, and by multiplying this distance by 0.0002, you
-                get the number of tokens you'll retire/offset.
+                get the number of tokens you'll retire.
               </p>
 
               <br />
