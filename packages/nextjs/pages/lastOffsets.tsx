@@ -17,11 +17,7 @@ function weiToEtherStringDisplay(weiString: string | undefined): string {
 }
 
 const LastOffsets: NextPage = () => {
-  const {
-    data: events,
-    isLoading: isLoadingEvents,
-    error: errorReadingEvents,
-  } = useScaffoldEventHistory({
+  const { data: events, isLoading: isLoadingEvents } = useScaffoldEventHistory({
     contractName: "OffsetHelper",
     eventName: "Redeemed",
     // Specify the starting block number from which to read events.

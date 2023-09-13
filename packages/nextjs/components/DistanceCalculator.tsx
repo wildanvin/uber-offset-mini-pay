@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import OffsetHelper from "./OffsetHelper";
-import ToucanSDK from "./ToucanSDK";
 import google from "@types/googlemaps";
 import { GoogleApiWrapper, Map, Marker, Polyline } from "google-maps-react";
 
@@ -78,7 +77,7 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
     event.preventDefault();
     const { google } = props;
     const directionsService = new google.maps.DirectionsService();
-    const distanceService = new google.maps.DistanceMatrixService();
+    // const distanceService = new google.maps.DistanceMatrixService();
     const geocoder = new google.maps.Geocoder();
 
     geocoder.geocode({ address: origin }, (results: any, status: any) => {
@@ -140,15 +139,6 @@ const DistanceCalculator: React.FC<DistanceCalculatorProps> = props => {
   //     width: "100%",
   //     height: "400px",
   //   };
-
-  interface IMapProps {
-    google: any;
-    zoom: number;
-    style?: React.CSSProperties;
-    initialCenter?: google.maps.LatLngLiteral;
-    center?: google.maps.LatLngLiteral;
-    onReady?: (mapProps: any, map: any) => void;
-  }
 
   return (
     <div className="w-1800px mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">

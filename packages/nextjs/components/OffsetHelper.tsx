@@ -55,7 +55,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
     args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
   });
 
-  const { writeAsync, isLoading } = useScaffoldContractWrite({
+  const { writeAsync } = useScaffoldContractWrite({
     contractName: "OffsetHelper",
     functionName: "autoOffsetExactOutETH",
     args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
