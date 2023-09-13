@@ -1,3 +1,8 @@
+# Uber Offset
+
+This app uses the Toucan Protocol, Google Maps API and Scaffold-ETH 2 to offset CO2 emitted by car rides.
+You can follow the Scaffold-ETH 2 documentation to run this app locally:
+
 # 🏗 Scaffold-ETH 2
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
@@ -10,16 +15,25 @@
 
 ## Contents
 
-- [Requirements](#requirements)
-- [Quickstart](#quickstart)
-- [Deploying your Smart Contracts to a Live Network](#deploying-your-smart-contracts-to-a-live-network)
-- [Deploying your NextJS App](#deploying-your-nextjs-app)
-- [Interacting with your Smart Contracts: SE-2 Custom Hooks](#interacting-with-your-smart-contracts-se-2-custom-hooks)
-- [Disabling Type & Linting Error Checks](#disabling-type-and-linting-error-checks)
-  - [Disabling commit checks](#disabling-commit-checks)
-  - [Deploying to Vercel without any checks](#deploying-to-vercel-without-any-checks)
-  - [Disabling Github Workflow](#disabling-github-workflow)
-- [Contributing to Scaffold-ETH 2](#contributing-to-scaffold-eth-2)
+- [Uber Offset](#uber-offset)
+- [🏗 Scaffold-ETH 2](#-scaffold-eth-2)
+  - [Contents](#contents)
+  - [Requirements](#requirements)
+  - [Quickstart](#quickstart)
+  - [Deploying your Smart Contracts to a Live Network](#deploying-your-smart-contracts-to-a-live-network)
+  - [Deploying your NextJS App](#deploying-your-nextjs-app)
+  - [Interacting with your Smart Contracts: SE-2 Custom Hooks](#interacting-with-your-smart-contracts-se-2-custom-hooks)
+    - [useScaffoldContractRead:](#usescaffoldcontractread)
+    - [useScaffoldContractWrite:](#usescaffoldcontractwrite)
+    - [useScaffoldEventSubscriber:](#usescaffoldeventsubscriber)
+    - [useScaffoldEventHistory:](#usescaffoldeventhistory)
+    - [useDeployedContractInfo:](#usedeployedcontractinfo)
+    - [useScaffoldContract:](#usescaffoldcontract)
+  - [Disabling type and linting error checks](#disabling-type-and-linting-error-checks)
+    - [Disabling commit checks](#disabling-commit-checks)
+    - [Deploying to Vercel without any checks](#deploying-to-vercel-without-any-checks)
+    - [Disabling Github Workflow](#disabling-github-workflow)
+  - [Contributing to Scaffold-ETH 2](#contributing-to-scaffold-eth-2)
 
 ## Requirements
 
@@ -142,10 +156,10 @@ Read public variables and get data from read-only functions of your contract.
 
 ```ts
 const { data: totalCounter } = useScaffoldContractRead({
-  contractName: "YourContract",
-  functionName: "getGreeting",
-  args: ["ARGUMENTS IF THE FUNCTION ACCEPTS ANY"],
-});
+  contractName: 'YourContract',
+  functionName: 'getGreeting',
+  args: ['ARGUMENTS IF THE FUNCTION ACCEPTS ANY'],
+})
 ```
 
 ### useScaffoldContractWrite:
@@ -154,18 +168,18 @@ Send a transaction to your contract to write data or perform an action.
 
 ```ts
 const { writeAsync, isLoading, isMining } = useScaffoldContractWrite({
-  contractName: "YourContract",
-  functionName: "setGreeting",
-  args: ["The value to set"],
+  contractName: 'YourContract',
+  functionName: 'setGreeting',
+  args: ['The value to set'],
   // For payable functions, expressed in ETH
-  value: "0.01",
-});
+  value: '0.01',
+})
 ```
 
 To make the actual call:
 
 ```ts
-<button className="btn btn-primary" onClick={writeAsync}>
+<button className='btn btn-primary' onClick={writeAsync}>
   Send TX
 </button>
 ```
@@ -176,14 +190,14 @@ Subscribe to your contract events, receiving real-time updates when events are e
 
 ```ts
 useScaffoldEventSubscriber({
-  contractName: "YourContract",
-  eventName: "GreetingChange",
+  contractName: 'YourContract',
+  eventName: 'GreetingChange',
   // The listener function is called whenever a GreetingChange event is emitted by the contract.
   // It receives the parameters emitted by the event, for this example: GreetingChange(address greetingSetter, string newGreeting, bool premium, uint256 value);
   listener: (greetingSetter, newGreeting, premium, value) => {
-    console.log(greetingSetter, newGreeting, premium, value);
+    console.log(greetingSetter, newGreeting, premium, value)
   },
-});
+})
 ```
 
 ### useScaffoldEventHistory:
@@ -216,7 +230,7 @@ Fetches details from your contract, including ABI and address.
 
 ```ts
 // ContractName: name of the deployed contract
-const { data: deployedContractData } = useDeployedContractInfo(contractName);
+const { data: deployedContractData } = useDeployedContractInfo(contractName)
 ```
 
 ### useScaffoldContract:
@@ -226,24 +240,24 @@ For reading data or sending transactions, it's recommended to use `useScaffoldCo
 
 ```ts
 const { data: yourContract } = useScaffoldContract({
-  contractName: "YourContract",
-});
+  contractName: 'YourContract',
+})
 // Returns the greeting and can be called in any function, unlike useScaffoldContractRead
-await yourContract?.greeting();
+await yourContract?.greeting()
 
 // Used to write to a contract and can be called in any function
-import { Signer } from "ethers";
-import { useSigner } from "wagmi";
+import { Signer } from 'ethers'
+import { useSigner } from 'wagmi'
 
-const { data: signer, isError, isLoading } = useSigner();
+const { data: signer, isError, isLoading } = useSigner()
 const { data: yourContract } = useScaffoldContract({
-  contractName: "YourContract",
+  contractName: 'YourContract',
   signerOrProvider: signer as Signer,
-});
+})
 const setGreeting = async () => {
   // Call the method in any function
-  await yourContract?.setGreeting("the greeting here");
-};
+  await yourContract?.setGreeting('the greeting here')
+}
 ```
 
 ## Disabling type and linting error checks

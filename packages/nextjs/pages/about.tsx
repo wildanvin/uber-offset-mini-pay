@@ -83,7 +83,7 @@ const About: NextPage = () => {
               <br />
 
               <p className="text-gray-600 mt-4">
-                Thanks for using this app! If you have any questions or feedback, feel free to reach out on{" "}
+                That is all, thanks for using this app! If you have any questions or feedback please reach out on{" "}
                 <a
                   href="https://twitter.com/wildanvin"
                   target="_blank"
@@ -91,6 +91,15 @@ const About: NextPage = () => {
                   className="underline underline-offset-2"
                 >
                   twitter
+                </a>
+                . Also, feel free to checkout the github{" "}
+                <a
+                  href="https://github.com/wildanvin/uber-offset"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  repo
                 </a>
                 .
               </p>
