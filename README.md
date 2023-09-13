@@ -1,6 +1,6 @@
 # Uber Offset
 
-This app uses the Toucan Protocol, Google Maps API and Scaffold-ETH 2 to offset CO2 emitted by car rides.
+This app uses the Toucan Protocol, Google Maps API and Scaffold-ETH 2 to offset CO2 emitted by your car rides.
 You can follow the Scaffold-ETH 2 documentation to run this app locally:
 
 # 🏗 Scaffold-ETH 2
