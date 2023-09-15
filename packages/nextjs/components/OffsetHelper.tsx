@@ -129,7 +129,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
           For {kmToOffset.toLocaleString()} km you will need{" "}
-          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> (plus has fees) in order to retire{" "}
+          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> (plus gas fees) in order to retire{" "}
           {tokensToOffset.toString().slice(0, 6)} TCO2 tokens.
         </p>
       </div>
