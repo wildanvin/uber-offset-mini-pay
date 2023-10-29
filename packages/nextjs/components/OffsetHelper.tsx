@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import ApproveTokens from "./ApproveTokens";
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils.js";
 import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
@@ -92,6 +93,11 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   // console.log(`matic to exchange displayed: ${weiToEtherStringDisplay(ETHNeeded?.toString())}`);
   // console.log(`matic to exchange actually exchanged: ${weiToEtherString(ETHNeeded?.toString())}`);
 
+  // console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
+  // console.log(`cUSD to exchange displayed: ${weiToEtherStringDisplay(cUSDNeeded?.toString())}`);
+  // console.log(`matic to exchange actually exchanged: ${weiToEtherString(cUSDNeeded?.toString())}`);
+  console.log(`matic to exchange actually exchanged: ${cUSDNeeded?.toString()}`);
+
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
     setKmToOffset(kms);
@@ -148,6 +154,9 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
           {tokensToOffset.toString().slice(0, 6)} TCO2 tokens.
         </p>
       </div>
+
+      <ApproveTokens value={cUSDNeeded ? cUSDNeeded?.toString() : "0"} />
+      <br />
 
       <div className="flex justify-center">
         <button
