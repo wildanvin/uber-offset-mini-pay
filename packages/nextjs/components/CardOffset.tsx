@@ -18,12 +18,12 @@ const Card: React.FC<CardProps> = ({ txHash, address, tokenQuantity }) => {
         <p>
           &nbsp;{" "}
           <a
-            href={`https://polygonscan.com/tx/${txHash}`}
+            href={`https://celoscan.io/tx/${txHash}`}
             target="_blank"
             rel="noreferrer"
             className="underline underline-offset-2"
           >
-            See on polygonscan.
+            See on celoscan.
           </a>
         </p>
       </div>

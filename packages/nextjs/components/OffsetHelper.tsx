@@ -46,19 +46,24 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   const router = useRouter();
 
   /*
-  Address of NCT token on polygon 0xD838290e877E0188a4A44700463419ED96c16107
+  ********************POLYGON********************
+  NCT: 0xD838290e877E0188a4A44700463419ED96c16107
+
+  *********************CELO**********************
+  NCT: b0x02De4766C272abc10Bc88c220D214A26960a7e92
+  cUSD: 0x765DE816845861e75A25fCA122bb6898B8B1282a
   */
 
   const { data: ETHNeeded } = useScaffoldContractRead({
     contractName: "OffsetHelper",
     functionName: "calculateNeededETHAmount",
-    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
+    args: ["0x02De4766C272abc10Bc88c220D214A26960a7e92", parseEther(tokensToOffset.toString().slice(0, 6))],
   });
 
   const { writeAsync } = useScaffoldContractWrite({
     contractName: "OffsetHelper",
     functionName: "autoOffsetExactOutETH",
-    args: ["0xD838290e877E0188a4A44700463419ED96c16107", parseEther(tokensToOffset.toString().slice(0, 6))],
+    args: ["0x02De4766C272abc10Bc88c220D214A26960a7e92", parseEther(tokensToOffset.toString().slice(0, 6))],
     value: weiToEtherString(ETHNeeded?.toString()),
   });
 
@@ -129,7 +134,7 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
       <div className="mt-4">
         <p className="text-lg font-medium text-gray-700">
           For {kmToOffset.toLocaleString()} km you will need{" "}
-          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} MATIC </b> (plus gas fees) in order to retire{" "}
+          <b>{weiToEtherStringDisplay(ETHNeeded?.toString())} CELO </b> (plus gas fees) in order to retire{" "}
           {tokensToOffset.toString().slice(0, 6)} TCO2 tokens.
         </p>
       </div>

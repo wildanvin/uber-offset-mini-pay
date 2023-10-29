@@ -21,7 +21,7 @@ const LastOffsets: NextPage = () => {
     contractName: "OffsetHelper",
     eventName: "Redeemed",
     // Specify the starting block number from which to read events.
-    fromBlock: 47348803,
+    fromBlock: 22174451,
     blockData: false,
     transactionData: true,
     receiptData: false,
