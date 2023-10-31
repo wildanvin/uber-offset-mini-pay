@@ -14,6 +14,17 @@ NCT:          0x02De4766C272abc10Bc88c220D214A26960a7e92
 cUSD:         0x765DE816845861e75A25fCA122bb6898B8B1282a
 */
 
+function weiToEtherStringDisplay(weiString: string | undefined): string {
+  try {
+    const wei = ethers.BigNumber.from(weiString);
+    const ether: string = ethers.utils.formatEther(wei).slice(0, 6);
+    return ether;
+  } catch (error) {
+    //console.error("Error converting Wei to Ether (Display):", error);
+    return "0.0";
+  }
+}
+
 const ApproveTokens: React.FC<ApproveTokensProps> = ({ value }) => {
   const { writeAsync } = useScaffoldContractWrite({
     contractName: "cUSD",
@@ -27,7 +38,7 @@ const ApproveTokens: React.FC<ApproveTokensProps> = ({ value }) => {
         className="w-full lg:w-1/2 mx-auto px-4 py-2 bg-primary rounded-lg hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary"
         onClick={writeAsync}
       >
-        Approve cUSD tokens
+        Approve {weiToEtherStringDisplay(value)} cUSD tokens
       </button>
     </div>
   );

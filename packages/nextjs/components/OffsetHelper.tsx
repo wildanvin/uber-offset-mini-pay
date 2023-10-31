@@ -12,17 +12,17 @@ type Props = {
   distance: number;
 };
 
-function weiToEtherString(weiString: string | undefined): string {
-  try {
-    const wei = ethers.BigNumber.from(weiString);
-    const ether = wei.add(ethers.utils.parseUnits("2000000", 0)); // Adding 2000000 Wei
-    const etherString: string = ethers.utils.formatEther(ether);
-    return etherString;
-  } catch (error) {
-    //console.error("Error converting Wei to Ether:", error);
-    return "0.0";
-  }
-}
+// function weiToEtherString(weiString: string | undefined): string {
+//   try {
+//     const wei = ethers.BigNumber.from(weiString);
+//     const ether = wei.add(ethers.utils.parseUnits("2000000", 0)); // Adding 2000000 Wei
+//     const etherString: string = ethers.utils.formatEther(ether);
+//     return etherString;
+//   } catch (error) {
+//     //console.error("Error converting Wei to Ether:", error);
+//     return "0.0";
+//   }
+// }
 
 function weiToEtherStringDisplay(weiString: string | undefined): string {
   try {
@@ -51,15 +51,9 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   NCT: 0xD838290e877E0188a4A44700463419ED96c16107
 
   *********************CELO**********************
-  NCT: b0x02De4766C272abc10Bc88c220D214A26960a7e92
+  NCT:  0x02De4766C272abc10Bc88c220D214A26960a7e92
   cUSD: 0x765DE816845861e75A25fCA122bb6898B8B1282a
   */
-
-  const { data: ETHNeeded } = useScaffoldContractRead({
-    contractName: "OffsetHelper",
-    functionName: "calculateNeededETHAmount",
-    args: ["0x02De4766C272abc10Bc88c220D214A26960a7e92", parseEther(tokensToOffset.toString().slice(0, 6))],
-  });
 
   const { data: cUSDNeeded } = useScaffoldContractRead({
     contractName: "OffsetHelper",
@@ -73,9 +67,12 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
 
   const { writeAsync } = useScaffoldContractWrite({
     contractName: "OffsetHelper",
-    functionName: "autoOffsetExactOutETH",
-    args: ["0x02De4766C272abc10Bc88c220D214A26960a7e92", parseEther(tokensToOffset.toString().slice(0, 6))],
-    value: weiToEtherString(ETHNeeded?.toString()),
+    functionName: "autoOffsetExactOutToken",
+    args: [
+      "0x765DE816845861e75A25fCA122bb6898B8B1282a",
+      "0x02De4766C272abc10Bc88c220D214A26960a7e92",
+      parseEther(tokensToOffset.toString().slice(0, 6)),
+    ],
   });
 
   useScaffoldEventSubscriber({
@@ -90,13 +87,9 @@ const OffsetHelper: React.FC<Props> = ({ distance }) => {
   });
 
   // console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
-  // console.log(`matic to exchange displayed: ${weiToEtherStringDisplay(ETHNeeded?.toString())}`);
-  // console.log(`matic to exchange actually exchanged: ${weiToEtherString(ETHNeeded?.toString())}`);
-
-  // console.log(`tokens to offset in wei: ${parseEther(tokensToOffset.toString().slice(0, 6))}`);
   // console.log(`cUSD to exchange displayed: ${weiToEtherStringDisplay(cUSDNeeded?.toString())}`);
   // console.log(`matic to exchange actually exchanged: ${weiToEtherString(cUSDNeeded?.toString())}`);
-  console.log(`matic to exchange actually exchanged: ${cUSDNeeded?.toString()}`);
+  // console.log(`matic to exchange actually exchanged: ${cUSDNeeded?.toString()}`);
 
   useEffect(() => {
     const kms = distance * (isRoundTrip ? daysTraveled * 2 : daysTraveled);
