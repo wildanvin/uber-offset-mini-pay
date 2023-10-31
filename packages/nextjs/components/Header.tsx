@@ -1,7 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useConnect } from "wagmi";
+import { InjectedConnector } from "wagmi/connectors/injected";
 import { Bars3Icon, EyeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
@@ -27,6 +29,22 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
  * Site header
  */
 export const Header = () => {
+  //start mini pay adaptation
+
+  const [hideConnectBtn, setHideConnectBtn] = useState(false);
+
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
+
+  useEffect(() => {
+    if (window.ethereum && window.ethereum.isMiniPay) {
+      setHideConnectBtn(true);
+      connect();
+    }
+  }, [connect]);
+
+  //end mini pay adaptation
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   useOutsideClick(
@@ -103,7 +121,8 @@ export const Header = () => {
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">{navLinks}</ul>
       </div>
       <div className="navbar-end flex-grow mr-4">
-        <RainbowKitCustomConnectButton />
+        {hideConnectBtn ? <p>MiniPay</p> : <RainbowKitCustomConnectButton />}
+
         <FaucetButton />
       </div>
     </div>
