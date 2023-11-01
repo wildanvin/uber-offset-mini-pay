@@ -2,6 +2,7 @@ import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
   braveWallet,
   coinbaseWallet,
+  injectedWallet,
   ledgerWallet,
   metaMaskWallet,
   rainbowWallet,
@@ -47,6 +48,7 @@ export const appChains = configureChains(
 
 const wallets = [
   metaMaskWallet({ chains: appChains.chains, shimDisconnect: true }),
+  injectedWallet({ chains: appChains.chains }),
   walletConnectWallet({ chains: appChains.chains }),
   ledgerWallet({ chains: appChains.chains }),
   braveWallet({ chains: appChains.chains }),

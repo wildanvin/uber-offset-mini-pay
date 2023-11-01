@@ -33,18 +33,53 @@ export const Header = () => {
 
   const [hideConnectBtn, setHideConnectBtn] = useState(false);
 
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
+  // const { connect } = useConnect({
+  //   connector: new InjectedConnector(),
+  // });
+  const { connect, connectors } = useConnect();
+
+  // console.log(connectors[3]);
+  // console.log(typeof connectors);
 
   useEffect(() => {
-    if (window.ethereum && window.ethereum.isMiniPay) {
+    if (typeof window !== "undefined" && window.ethereum && window.ethereum.isMiniPay) {
       setHideConnectBtn(true);
-      connect();
+      connect(connectors[3]);
     }
   }, [connect]);
+  /**
+   * 
+   * From wagmi documentation 0.12.x:
+   import { useConnect } from 'wagmi'
+ 
+export function Profile() {
+  const { connect, connectors, error, isLoading, pendingConnector } =
+    useConnect()
+ 
+  return (
+    <div>
+      {connectors.map((connector) => (
+        <button
+          disabled={!connector.ready}
+          key={connector.id}
+          onClick={() => connect({ connector })}
+        >
+          {connector.name}
+          {!connector.ready && ' (unsupported)'}
+          {isLoading &&
+            connector.id === pendingConnector?.id &&
+            ' (connecting)'}
+        </button>
+      ))}
+ 
+      {error && <div>{error.message}</div>}
+    </div>
+  )
+}
+   */
 
   //end mini pay adaptation
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   useOutsideClick(
