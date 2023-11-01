@@ -42,7 +42,7 @@ export const Header = () => {
   // console.log(typeof connectors);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.ethereum && window.ethereum) {
+    if (typeof window !== "undefined" && window.ethereum && window.ethereum.isMiniPay) {
       setHideConnectBtn(true);
       connect({ connector: connectors[3] });
     }
