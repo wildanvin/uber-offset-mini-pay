@@ -31,15 +31,24 @@ const About: NextPage = () => {
               <p className="text-gray-600 mt-4">
                 I used the{" "}
                 <a
-                  href="https://polygonscan.com/address/0x4e01404d07c5c85d35a2b6a6ad777d29cc51eaa1#code"
+                  href="https://github.com/ToucanProtocol/OffsetHelper"
                   target="_blank"
                   rel="noreferrer"
                   className="underline underline-offset-2"
                 >
                   OffsetHelper
                 </a>{" "}
-                contract (deployed by the Toucan team) to allow a retirement within one transaction. You can read more
-                about the Toucan Protocol{" "}
+                contract (
+                <a
+                  href="https://celoscan.io/address/0x4242829d15434fea6606cf995f1bed68a18c37d1#code"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-2"
+                >
+                  deployed
+                </a>{" "}
+                by the Toucan team) to allow a retirement within one transaction. You can read more about the Toucan
+                Protocol{" "}
                 <a
                   href="https://docs.toucan.earth/toucan/introduction/overview"
                   target="_blank"
@@ -94,7 +103,7 @@ const About: NextPage = () => {
                 </a>
                 . Also, feel free to checkout the github{" "}
                 <a
-                  href="https://github.com/wildanvin/uber-offset"
+                  href="https://github.com/wildanvin/uber-offset-mini-pay"
                   target="_blank"
                   rel="noreferrer"
                   className="underline underline-offset-2"
