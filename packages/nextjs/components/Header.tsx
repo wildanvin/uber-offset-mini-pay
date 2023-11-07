@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useConnect } from "wagmi";
-import { InjectedConnector } from "wagmi/connectors/injected";
 import { Bars3Icon, EyeIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
@@ -29,56 +28,23 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
  * Site header
  */
 export const Header = () => {
-  //start mini pay adaptation
-
+  //**************************************************************/
+  //*************** Start mini pay adaptation*********************/
+  //**************************************************************/
   const [hideConnectBtn, setHideConnectBtn] = useState(false);
-
-  // const { connect } = useConnect({
-  //   connector: new InjectedConnector(),
-  // });
   const { connect, connectors } = useConnect();
 
-  // console.log(connectors[3]);
-  // console.log(typeof connectors);
+  const injectedConnector = connectors.filter(item => item.id === "injected");
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.ethereum && window.ethereum.isMiniPay) {
       setHideConnectBtn(true);
-      connect({ connector: connectors[3] });
+      connect({ connector: injectedConnector[0] });
     }
   }, [connect]);
-  /**
-   * 
-   * From wagmi documentation 0.12.x:
-   import { useConnect } from 'wagmi'
- 
-export function Profile() {
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect()
- 
-  return (
-    <div>
-      {connectors.map((connector) => (
-        <button
-          disabled={!connector.ready}
-          key={connector.id}
-          onClick={() => connect({ connector })}
-        >
-          {connector.name}
-          {!connector.ready && ' (unsupported)'}
-          {isLoading &&
-            connector.id === pendingConnector?.id &&
-            ' (connecting)'}
-        </button>
-      ))}
- 
-      {error && <div>{error.message}</div>}
-    </div>
-  )
-}
-   */
-
-  //end mini pay adaptation
+  //**************************************************************/
+  //*************** End mini pay adaptation*********************/
+  //**************************************************************/
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
