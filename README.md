@@ -10,9 +10,8 @@ Checkout the dapp [live](https://uber-offset-mini-pay-nextjs.vercel.app/), it is
 
 Watch a demo video on:
 
-- [Youtube]()
-- [Lenstube]()
-- [Warpcast]()
+- [Youtube](https://youtu.be/P8YNsWUpTR8)
+- [tape.xyz](https://tape.xyz/watch/0x014f6f-0x36)
 
 ## Scaffold-ETH 2
 
